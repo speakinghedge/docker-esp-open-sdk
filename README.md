@@ -24,7 +24,7 @@ provided via [GitHub](https://github.com/pfalcon/esp-open-sdk).
 
 It contains everything to build and deploy firmware images for the ESP8266.
 
-Ýou should check the IoT SDK API documentation located in '/home/espbuilder/esp-open-sdk/esp_iot_sdk_v1.0.0/document/English/SDK-Espressif IoT SDK Programming Guide_v1.0.0.pdf'.
+You should check the IoT SDK API documentation - see the readme.txt in folder '/home/espbuilder/esp-open-sdk/esp_iot_sdk_v1.0.0/document/English/'. The current version of the ESP8266 SDK API GUI can be found [here](http://bbs.espressif.com/download/file.php?id=1160).
 
 # usage
 
@@ -97,10 +97,16 @@ To enable the *download boot mode* simply enable switch SW0 (pull GPIO0 down) du
 
 ### blinky example
 
+Create the image:
+
+```
+host> docker build -t hecke/esp-open-sdk:1.5.2 .
+```
+
 Start the container:
 
 ```
-host> docker run -ti --privileged hecke/esp-open-sdk
+host> docker run -ti --privileged hecke/esp-open-sdk:1.5.2
 ```
 
 Build and flash the blinky example:
@@ -147,7 +153,7 @@ host> mkdir -p /home/hecke/projects/esp8266-minimal
 Start the container using the project folder as a shared directory:
 
 ```
-host> docker run -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk
+host> docker run -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk:1.5.2
 ```
 
 Setup project environment (copy basic Makefile from blinky, create source folder):
@@ -203,11 +209,13 @@ FW firmware/0x40000.bin
 # links
 
 * [esp8266-wiki](https://github.com/esp8266/esp8266-wiki/wiki)
-** [AT command set](https://github.com/esp8266/esp8266-wiki/wiki/at_0.9.1)
-** [memory map](https://github.com/esp8266/esp8266-wiki/wiki/Memory-Map)
-** [boot process](https://github.com/esp8266/esp8266-wiki/wiki/Boot-Process)
+ * [AT command set](https://github.com/esp8266/esp8266-wiki/wiki/at_0.9.1)
+ * [memory map](https://github.com/esp8266/esp8266-wiki/wiki/Memory-Map)
+ * [boot process](https://github.com/esp8266/esp8266-wiki/wiki/Boot-Process)
 * [ESP8266 Community Forum](http://www.esp8266.com)
 * blog entries on [hack-a-day](http://hackaday.com/?s=esp8266)
+ * awesome [color TV broadcast](http://hackaday.com/2016/03/01/color-tv-broadcasts-are-esp8266s-newest-trick/) using ESP8266 by cnlohr
+* [esp8266 GPIO performance](http://naberius.de/2015/05/14/esp8266-gpio-output-performance/)
 
 There are other ESP8266 tool-chains (like [this](https://github.com/cnlohr/ws2812esp8266) one) and a [Arduino compatible IDE](https://github.com/esp8266/arduino) that supports the ESP8266.
 
