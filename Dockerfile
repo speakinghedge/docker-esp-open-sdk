@@ -22,12 +22,14 @@ RUN apt-get update && apt-get install -y \
 	ncurses-dev \
 	nano \
 	python \
+	python-dev \
 	python-serial \
 	sed \
 	texinfo \
 	unrar \
 	unzip \
-	wget
+	wget \
+	help2man
 
 RUN adduser espbuilder && usermod -a -G dialout espbuilder
 
