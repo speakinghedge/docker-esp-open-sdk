@@ -153,7 +153,7 @@ host> mkdir -p /home/hecke/projects/esp8266-minimal
 Start the container using the project folder as a shared directory:
 
 ```
-host> docker run -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk:1.5.2
+host> docker run --rm -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk:1.5.2
 ```
 
 Setup project environment (copy basic Makefile from blinky, create source folder):
