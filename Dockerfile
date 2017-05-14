@@ -1,4 +1,4 @@
-FROM debian:7.8
+FROM debian:8.8
 
 MAINTAINER hecke <hecke@naberius.de>
 
@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 	gperf \
 	libexpat-dev \
 	libtool \
+	libtool-bin \
 	make \
 	ncurses-dev \
 	nano \
@@ -31,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 	wget \
 	help2man
 
-RUN adduser espbuilder && usermod -a -G dialout espbuilder
+RUN useradd -ms /bin/bash espbuilder && usermod -a -G dialout espbuilder
 
 USER espbuilder
 
@@ -45,7 +46,7 @@ RUN (cd /home/espbuilder/ && git clone https://github.com/tommie/esptool-ck.git 
 
 ENV PATH /home/espbuilder/esp-open-sdk/xtensa-lx106-elf/bin:/home/espbuilder/esp-open-sdk/esptool/:$PATH
 ENV XTENSA_TOOLS_ROOT /home/espbuilder/esp-open-sdk/xtensa-lx106-elf/bin
-ENV SDK_BASE /home/espbuilder/esp-open-sdk/esp_iot_sdk_v1.5.2
+ENV SDK_BASE /home/espbuilder/esp-open-sdk/ESP8266_NONOS_SDK_V2.0.0_16_08_10/
 ENV FW_TOOL /home/espbuilder/esptool-ck/esptool
 
 CMD (cd /home/espbuilder/ && /bin/bash)
