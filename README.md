@@ -31,7 +31,7 @@ You should check the IoT SDK API documentation - see the readme.txt in folder '/
 ## hardware
 
 The basic steps to upload code to the ESP8266 can be found [here](https://github.com/esp8266/esp8266-wiki/wiki/Uploading).
-Just connect the ESP8266 module using a 3.3V-RS232-USB-adapter (eg. FTDI232 adapter) and a 3.3V power supply (I started 
+Just connect the ESP8266 module using a 3.3V-RS232-USB-adapter (eg. FTDI232 adapter) and a 3.3V power supply (I started
 using the 3.3V rail from the FTDI232 - but this is not able to deliver enough power and the ESP8266 acts wired...):
 
 ```
@@ -39,13 +39,13 @@ ESP8266               PWR SPLY
 ------+              +---------
    Vcc|-+------------| 3.3V / 300mA
       | |            |
-CHP_EN|-+         +--| GND  
+CHP_EN|-+         +--| GND
       | |         |  |
    RST|-+         |  +---------
-      |           |   
- GPIO2|*          |  
-      |     *     | 
- GPIO0|-----+     | 
+      |           |
+ GPIO2|*          |
+      |     *     |
+ GPIO0|-----+     |
       |     |     |  RS232-USB
       |      \SW0 |  +---------
       |     |     |  |
@@ -105,40 +105,48 @@ host>sudo screen /dev/ttyUSB0 115200
 Create the image:
 
 ```
-host> docker build -t hecke/esp-open-sdk:1.5.2 .
+host> docker build -t hecke/esp-open-sdk-nonos:2.0.0 .
 ```
 
 Start the container:
 
 ```
-host> docker run -ti --privileged hecke/esp-open-sdk:1.5.2
+host> docker run -ti --privileged hecke/esp-open-sdk-nonos:2.0.0
 ```
 
 Build and flash the blinky example:
 
 ```
 espbuilder@container> cd source-code-examples/blinky/
-espbuilder@container> make
+espbuilder@container:~/source-code-examples/blinky> make
 CC user/user_main.c
 AR build/app_app.a
 LD build/app.out
 FW firmware/0x00000.bin
 FW firmware/0x40000.bin
-espbuilder@container> make flash
-esptool.py --port /dev/ttyUSB0 write_flash 0x00000 firmware/0x00000.bin 0x40000 firmware/0x40000.bin
-Connecting...
-Erasing flash...
-Writing at 0x00007400... (100 %)
-Erasing flash...
-Writing at 0x00065400... (100 %)
+```
 
+It seems the *flash* target of the Makefile is broken - but you can simply call *esptool.py* directly:
+
+```
+espbuilder@container:~/source-code-examples/blinky> esptool.py --port /dev/ttyUSB0 write_flash 0x00000 firmware/0x00000.bin 0x10000 firmware/0x10000.bin
+esptool.py v1.2
+Connecting...
+Auto-detected Flash size: 4m
+Running Cesanta flasher stub...
+Flash params set to 0x0000
+Writing 28672 @ 0x0... 28672 (100 %)
+Wrote 28672 bytes at 0x0 in 2.5 seconds (92.0 kbit/s)...
+Writing 196608 @ 0x10000... 196608 (100 %)
+Wrote 196608 bytes at 0x10000 in 17.0 seconds (92.3 kbit/s)...
 Leaving...
-espbuilder@container>
+
+espbuilder@container:~/source-code-examples/blinky>
 ```
 
 Reset/re-power the ESP8266 module and check if GPIO2 toggling with f=0.5 Hz.
 
-**NOTE:** The default port used to flash the firmware is /dev/ttyUSB0. To override the default, 
+**NOTE:** The default port used to flash the firmware is /dev/ttyUSB0. To override the default,
 use the attribute 'ESPPORT', eg:
 
 ```
@@ -158,7 +166,7 @@ host> mkdir -p /home/hecke/projects/esp8266-minimal
 Start the container using the project folder as a shared directory:
 
 ```
-host> docker run --rm -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk:1.5.2
+host> docker run --rm -ti -v /home/hecke/projects/esp8266-minimal:/home/espbuilder/esp8266-minimal --privileged hecke/esp-open-sdk-nonos:2.0.0
 ```
 
 Setup project environment (copy basic Makefile from blinky, create source folder):
