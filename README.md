@@ -93,6 +93,11 @@ To enable the *download boot mode* simply enable switch SW0 (pull GPIO0 down) du
 
 **NOTE:** Software reset (AT+RST) won't work for switching into *download boot mode*.
 
+**NOTE:** If 9600 speed doesn't work, try 115200:
+```
+host>sudo screen /dev/ttyUSB0 115200
+```
+
 ## software
 
 ### blinky example
